@@ -48,6 +48,21 @@ func TestAdditionDollarsAndEuros(t *testing.T) {
 	assertEqual(t, expectedValue, actualValue)
 }
 
+func TestAdditionDollarsAndWon(t *testing.T) {
+	var portfolio s.Portfolio
+
+	fiveDollars := s.NewMoney(1, "USD")
+	elevenHundredWon := s.NewMoney(1100, "KRW")
+
+	portfolio = portfolio.Add(fiveDollars)
+	portfolio = portfolio.Add(elevenHundredWon)
+
+	expectedValue := s.NewMoney(2200, "KRW")
+	actualValue := portfolio.Evaluate("KRW")
+
+	assertEqual(t, expectedValue, actualValue)
+}
+
 func assertEqual(t *testing.T, expected, actual s.Money) {
 	if actual != expected {
 		t.Errorf("Expected %v, got %v", expected, actual)
