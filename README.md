@@ -111,3 +111,64 @@ $ mkdir -p .github/workflows
 ```bash
 $ touch .github/workflows/ci.yml
 ```
+
+이제 `ci.yml` 파일을 열고 다음 내용을 추가한다.
+
+```yaml
+name: Go CI #1
+on:
+  push:
+    branches: [chapter13] #2
+jobs:
+  build:
+    name: Build #3
+    strategy:
+      matrix: #4
+        go-version: [1.20.x, 1.22.x]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }} #5
+    steps: #6
+      - name: Set up Go ${{ matrix.go-version }} #7
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Check out code #8
+        uses: actions/checkout@v4
+      - name: Test #9
+        run: |
+          cd go
+          go test -v ./...
+
+#10
+```
+
+이 파일은 다음과 같은 작업을 수행한다.
+
+1. 전체 스크립트에 대한 이름을 `Go CI`로 지정한다.
+2. `chapter13` 브랜치에 푸시할 때마다 실행되도록 설정한다.
+3. `Build` 작업을 정의한다.
+4. 매트릭스 빌드 전략(matrix build strategy)을 정의한다. 이는 여러 플랫폼에서 빌드를 실행할 수 있도록 한다.
+5. `ubuntu-latest`, `macos-latest`, `windows-latest` 플랫폼에서 빌드를 실행한다.
+6. 빌드 단계를 정의한다.
+7. `actions/setup-go@v4` 액션을 사용하여 Go 환경을 설정한다.
+8. `actions/checkout@v4` 액션을 사용하여 코드를 체크아웃(지정된 브랜치에서 코드를 가져옴)한다.
+9. `go test -v ./...` 명령을 실행하여 테스트를 실행한다.
+10. 각 단계가 성공적으로 실행되고 나면, 역순으로 클린업을 수행한다.
+
+매트릭스 빌드 전략을 사용하면 여러 플랫폼에서 여러 버전의 Go를 사용하여 빌드를 실행할 수 있다. 상기 예제에서는 `1.20.x`, `1.22.x` 버전의 Go를 사용하며, `ubuntu-latest`, `macos-latest`, `windows-latest` 플랫폼에서 빌드를 실행한다. 즉, 총 6개의 빌드가 실행된다.
+
+## 변경 사항 반영하기
+
+이제 변경 사항을 반영하고 깃허브에 푸시한다.
+
+```bash
+$ git add .
+$ git commit -m "feat: continuous integration script using Github Actions"
+$ git push origin chapter13
+```
+
+변경 사항이 깃허브에 푸시되면, 깃허브 액션에서 CI 파이프라인이 실행된다.
+
+## 중간 점검
+
+성공적으로 지속적 통합을 활성화했다. 다음은 그동안 배운 내용에 대한 리뷰가 이어진다.
