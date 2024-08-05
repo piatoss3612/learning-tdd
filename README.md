@@ -124,7 +124,7 @@ jobs:
     name: Build #3
     strategy:
       matrix: #4
-        go-version: [1.20.x, 1.22.x]
+        go-version: [1.23.x, 1.22.x]
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }} #5
     steps: #6
@@ -155,7 +155,7 @@ jobs:
 9. `go test -v ./...` 명령을 실행하여 테스트를 실행한다.
 10. 각 단계가 성공적으로 실행되고 나면, 역순으로 클린업을 수행한다.
 
-매트릭스 빌드 전략을 사용하면 여러 플랫폼에서 여러 버전의 Go를 사용하여 빌드를 실행할 수 있다. 상기 예제에서는 `1.20.x`, `1.22.x` 버전의 Go를 사용하며, `ubuntu-latest`, `macos-latest`, `windows-latest` 플랫폼에서 빌드를 실행한다. 즉, 총 6개의 빌드가 실행된다.
+매트릭스 빌드 전략을 사용하면 여러 플랫폼에서 여러 버전의 Go를 사용하여 빌드를 실행할 수 있다. 상기 예제에서는 `1.23.x`, `1.22.x` 버전의 Go를 사용하며, `ubuntu-latest`, `macos-latest`, `windows-latest` 플랫폼에서 빌드를 실행한다. 즉, 총 6개의 빌드가 실행된다.
 
 ## 변경 사항 반영하기
 
